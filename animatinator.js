@@ -49,7 +49,6 @@
         self.startAnimate = function (callback, evt) {
             clearInterval(animator);
             animator = setInterval(function () {
-                debugger;
                 if (self.currentFrame < animateArray.length) {
                     self.css(animateArray[self.currentFrame]);
                     self.currentFrame++;

@@ -6,8 +6,6 @@
         // the current frame we are on, public so devs can use it zero based index
         self.currentFrame = 0;
         var defaults = {
-            // the element to animate the background image
-            elemSelector: '',
             // the image path, must be a straight line of image frames all the same size.
             imgPath: '',
             // the width of each frame
@@ -48,7 +46,7 @@
         var last = animateArray.pop();
         animateArray.unshift(last);
 
-        self.start = function (callback, evt) {
+        self.startAnimate = function (callback, evt) {
             clearInterval(animator);
             animator = setInterval(function () {
                 debugger;
@@ -56,24 +54,24 @@
                     self.css(animateArray[self.currentFrame]);
                     self.currentFrame++;
                 } else {
-                    self.stop(callback);
+                    self.stopAnimate(callback);
                 }
             }, stepTime);
         };
 
-        self.reverse = function(callback, evt) {
+        self.reverseAnimate = function(callback, evt) {
             clearInterval(animator);
             animator = setInterval(function() {
                 if (self.currentFrame > 0) {
                     self.currentFrame--;
                     self.css(animateArray[self.currentFrame]);
                 } else {
-                    self.stop(callback);
+                    self.stopAnimate(callback);
                 }
             }, stepTime);
         };
 
-        self.stop = function(callback, evt) {
+        self.stopAnimate = function(callback, evt) {
             clearInterval(animator);
             animator = undefined;
             if (typeof callback == "function") {
@@ -82,28 +80,28 @@
         };
         $.each(opts.start, function(key, val) {
             if (typeof key == "number") {
-                self.on(val, self.start);
+                self.on(val, self.startAnimate);
             } else {
                 self.on(key, function(evt) {
-                    self.start(val, evt);
+                    self.startAnimate(val, evt);
                 });
             }
         });
         $.each(opts.reverse, function(key, val) {
             if (typeof key == "number") {
-                self.on(val, self.reverse);
+                self.on(val, self.reverseAnimate);
             } else {
                 self.on(key, function(evt) {
-                    self.reverse(val, evt);
+                    self.reverseAnimate(val, evt);
                 });
             }
         });
         $.each(opts.stop, function(key, val) {
             if (typeof key == "number") {
-                self.on(val, self.stop);
+                self.on(val, self.stopAnimate);
             } else {
                 self.on(key, function(evt) {
-                    self.stop(val, evt);
+                    self.stopAnimate(val, evt);
                 });
             }
         });

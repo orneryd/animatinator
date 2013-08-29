@@ -18,9 +18,16 @@
             animationSteps: 15,
             // the duration of the animation
             duration: 1000,
-            // jquery events can be defined in these objects to animate
+            // jquery events can be defined in these objects to animate and their callbacks
+            // example:
+            //start: {
+            //  mouseenter: function () {
+            //  },
+            //  touchstart: function () {
+            //  }
+            //},
             // can also be just an array of events
-            //example: reverse: ["mouseleave", "touchend"]
+            // example: reverse: ["mouseleave", "touchend"]
             start: {}, 
             stop: {},
             reverse: {}

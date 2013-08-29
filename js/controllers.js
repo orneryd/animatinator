@@ -12,16 +12,15 @@ angular.module('myApp.controllers', []).
           animationSteps: 15,
           duration: 600,
           start: {
-              mouseover: function() {
+              mouseenter: function () {
               },
+			  touchstart: function () {
+              }
           },
           reverse: {
-              mouseout: function () {
+              mouseleave: function () {
               },
-          },
-          stop: {
-              click: function() {
-                  
+			  touchend: function () {
               }
           }
       };
@@ -37,14 +36,13 @@ angular.module('myApp.controllers', []).
           start: {
               mouseenter: function () {
               },
+			  touchstart: function () {
+              }
           },
           reverse: {
               mouseleave: function () {
               },
-          },
-          stop: {
-              click: function () {
-
+			  touchend: function () {
               }
           }
       };

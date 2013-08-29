@@ -7,21 +7,20 @@
   <link rel="stylesheet" href="css/bootstrap.css"/>
 </head>
 <body>
-    <div class="navbar navbar-fixed-top bs-docs-nav">
+    <div class="navbar navbar-fixed-top bs-docs-nav" ng-controller="rootController">
         <div class="container">
-            <a href="../" class="navbar-brand">LDSHT Tools</a>
+            <a href="../" class="navbar-brand">Animatinator Examples</a>
             <div class="nav-collapse collapse bs-navbar-collapse">
                 <ul class="nav navbar-nav">
-                    <li><a href="#/home">home</a></li>
-                    <li><a href="#/login">login</a></li>
+                    <li><div id="home" data-animatinator="home"></div><a href="#/home">Home</a></li>
+					<li><div id="about" data-animatinator="about"></div><a href="#/home">About</a></li>
+					<li><div id="examples" data-animatinator="examples"></div><a href="#/home">Examples</a></li>
+					<li><div id="media" data-animatinator="media"></div><a href="#/home">Media</a></li>
                 </ul>
             </div>
         </div>
     </div>
   <div class="container well-large" ng-view></div>
-
-  <div>Angular seed app: v<span app-version></span></div>
-
     <!-- In production use:
         <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
         -->

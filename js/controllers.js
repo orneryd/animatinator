@@ -4,9 +4,28 @@
 
 angular.module('myApp.controllers', []).
   controller('homeController', ['$scope', '$http', function ($scope, $http) {
-      var goptions = {
-          elemSelector: '#animate',
-          pngPath: 'img/sprite_genetics.png',
+      var baseOpts = {
+          dimx: 70,
+          dimy: 70,
+          animationSteps: 15,
+          duration: 600,
+          start: {
+              mouseenter: function() {
+              },
+              touchstart: function() {
+              }
+          },
+          reverse: ["mouseleave", "touchend"]
+      };
+      $scope.frostbite = $.extend(baseOpts, {
+          elemSelector: '#frostbite',
+          imgPath: 'img/frostbite.png',
+          dimx: 192,
+          dimy: 192,
+      });
+  }]).
+  controller('rootController', ['$scope', '$http', function ($scope) {
+      var baseOpts = {
           dimx: 70,
           dimy: 70,
           animationSteps: 15,
@@ -14,43 +33,25 @@ angular.module('myApp.controllers', []).
           start: {
               mouseenter: function () {
               },
-			  touchstart: function () {
+              touchstart: function () {
               }
           },
-          reverse: {
-              mouseleave: function () {
-              },
-			  touchend: function () {
-              }
-          }
+          reverse: ["mouseleave", "touchend"]
       };
-
-      var genetics = new Animatinator(goptions);
-      var foptions = {
-          elemSelector: '#animate1',
-          pngPath: 'img/frostbite.png',
-          dimx: 192,
-          dimy: 192,
-          animationSteps: 15,
-          duration: 600,
-          start: {
-              mouseenter: function () {
-              },
-			  touchstart: function () {
-              }
-          },
-          reverse: {
-              mouseleave: function () {
-              },
-			  touchend: function () {
-              }
-          }
-      };
-      var frostbite = new Animatinator(foptions);
-
-  }])
-  .controller('loginController', ['$scope', '$http', function ($scope, $http) {
-      $scope.openWindow = function () {
-          window.open("https://signin.lds.org/obrareq.cgi?" + window.location, "_self");
-      };
+      $scope.about = $.extend({}, baseOpts, {
+          elemSelector: '#about',
+          imgPath: 'img/about.png'
+      });
+      $scope.home = $.extend({}, baseOpts, {
+          elemSelector: '#home',
+          imgPath: 'img/innovation.png'
+      });
+      $scope.examples = $.extend({}, baseOpts, {
+          elemSelector: '#examples',
+          imgPath: 'img/genetics.png'
+      });
+      $scope.media = $.extend({}, baseOpts, {
+          elemSelector: '#media',
+          imgPath: 'img/media.png'
+      });
   }]);

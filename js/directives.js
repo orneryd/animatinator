@@ -9,7 +9,8 @@ angular.module('myApp.directives', []).
       elm.text(version);
     };
   }]).directive('animatinator', function() {
-      return function (scope, elm, attrs) {
-          elm.animatinator(scope.$eval(attrs.animatinator));
+      return function ($scope, elm, attrs) {
+          $scope.animators = $scope.animators || {};
+          $scope.animators[attrs.animatinator] = elm.animatinator($scope.$eval(attrs.animatinator));
       };
   });

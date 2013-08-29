@@ -42,6 +42,18 @@ angular.module('myApp.controllers', []).
           elemSelector: '#about',
           imgPath: 'img/about.png'
       });
+      $scope.animateAll = function() {
+          angular.forEach($scope.animators, function(item) {
+              item.startAnimate(function () {
+                  item.reverseAnimate();
+              });
+          });
+      };
+      $scope.animate = function(key) {
+          $scope.animators[key].startAnimate(function() {
+              $scope.animators[key].reverseAnimate();
+          });
+      };
       $scope.home = $.extend({}, baseOpts, {
           elemSelector: '#home',
           imgPath: 'img/innovation.png'

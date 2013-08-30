@@ -3,7 +3,7 @@
 /* Controllers */
 
 angular.module('myApp.controllers', []).
-  controller('homeController', ['$scope', '$http', function ($scope, $http) {
+  controller('homeController', ['$scope', function ($scope) {
       var baseOpts = {
           dimx: 70,
           dimy: 70,
@@ -24,7 +24,7 @@ angular.module('myApp.controllers', []).
           dimy: 192,
       });
   }]).
-  controller('rootController', ['$scope', '$http', function ($scope) {
+  controller('rootController', ['$scope', function ($scope) {
       var baseOpts = {
           dimx: 70,
           dimy: 70,

@@ -2,4 +2,90 @@
     <p>mouse over or touch the crystal to watch the effect, you can also mouse over the icons up top.</p>
     <div data-animatinator="frostbite">
     </div>
+    HTML for the site:
+    <pre style="margin-top: 30px; background-color: white; height: 325px; border-radius: 0 0 4px 4px; white-space: pre; word-wrap: normal; overflow: auto" class="prettyprint">
+&lt;script src="lib/jquery-1.10.2.min.js"&gt;&lt;/script&gt;
+&lt;script src="lib/angular/angular.js"&gt;&lt;/script&gt;
+&lt;script src="lib/bootstrap/bootstrap.js"&gt;&lt;/script&gt;
+&lt;script src="js/animatinator.js"&gt;&lt;/script&gt;
+&lt;div class="navbar navbar-fixed-top bs-docs-nav" ng-controller="rootController"&gt;
+    &lt;div class="container"&gt;
+        &lt;a href="#/home" ng-click="animateAll()" class="navbar-brand"&gt;Animatinator Examples&lt;/a&gt;
+        &lt;div class="nav-collapse collapse bs-navbar-collapse"&gt;
+            &lt;ul class="nav navbar-nav"&gt;
+                &lt;li&gt;&lt;div data-animatinator="home"&gt;&lt;/div&gt;&lt;a href="#/home" ng-click="animate('home')"&gt;Home&lt;/a&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;div data-animatinator="about"&gt;&lt;/div&gt;&lt;a href="#/home" ng-click="animate('about')"&gt;About&lt;/a&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;div data-animatinator="examples"&gt;&lt;/div&gt;&lt;a href="#/home" ng-click="animate('examples')"&gt;Examples&lt;/a&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;div data-animatinator="media"&gt;&lt;/div&gt;&lt;a href="#/home" ng-click="animate('media')"&gt;Media&lt;/a&gt;&lt;/li&gt;
+            &lt;/ul&gt;
+        &lt;/div&gt;
+        &lt;div class="nav pull-right"&gt;
+            &lt;p class="btn-group"&gt;
+                &lt;a class="btn btn-primary" href="https://github.com/timothyswt/animatinator/zipball/master"&gt;&lt;i class="icon-white icon-download-alt"&gt;&lt;/i&gt; Download ZIP&lt;/a&gt;
+                &lt;a class="btn" href="https://github.com/timothyswt/animatinator"&gt;&lt;i class="icon-github"&gt;&lt;/i&gt; Code on Github&lt;/a&gt;
+                &lt;a class="btn btn-primary" href="https://github.com/timothyswt/animatinator/tarball/master"&gt;&lt;i class="icon-white icon-download-alt"&gt;&lt;/i&gt; Download TAR&lt;/a&gt;
+            &lt;/p&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="container well-large" style="margin-top: 150px;" ng-view&gt;
+    &lt;p&gt;mouse over or touch the crystal to watch the effect, you can also mouse over the icons up top.&lt;/p&gt;
+        &lt;div data-animatinator="frostbite"&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+</pre>
+    JS Code for the site:
+
+<pre style="margin-top: 30px; background-color: white; height: 325px; border-radius: 0 0 4px 4px; white-space: pre; word-wrap: normal; overflow: auto" class="prettyprint">
+var app = angular.module('myApp');
+app..directive('animatinator', function() {
+  return function ($scope, elm, attrs) {
+      $scope.animators = $scope.animators || {};
+      $scope.animators[attrs.animatinator] = elm.animatinator($scope.$eval(attrs.animatinator));
+  };
+});
+app.controller('rootController', ['$scope', function ($scope) {
+      var baseOpts = {
+          dimx: 70,
+          dimy: 70,
+          frames: 15,
+          duration: 600,
+          start: {
+              mouseenter: function () {
+              },
+              touchstart: function () {
+              }
+          },
+          reverse: ["mouseleave", "touchend"]
+      };
+      $scope.about = $.extend({}, baseOpts, {
+          elemSelector: '#about',
+          imgPath: 'img/about.png'
+      });
+      $scope.animateAll = function() {
+          angular.forEach($scope.animators, function(item) {
+              item.startAnimate(function () {
+                  item.reverseAnimate();
+              });
+          });
+      };
+      $scope.animate = function(key) {
+          $scope.animators[key].startAnimate(function() {
+              $scope.animators[key].reverseAnimate();
+          });
+      };
+      $scope.home = $.extend({}, baseOpts, {
+          elemSelector: '#home',
+          imgPath: 'img/innovation.png'
+      });
+      $scope.examples = $.extend({}, baseOpts, {
+          elemSelector: '#examples',
+          imgPath: 'img/genetics.png'
+      });
+      $scope.media = $.extend({}, baseOpts, {
+          elemSelector: '#media',
+          imgPath: 'img/media.png'
+      });
+  }]);
+</pre>
 </div>

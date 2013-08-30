@@ -1,4 +1,8 @@
 (function (window, $) {
+    // simple helper method to always return px from an int or string int.
+    var toPx = function (val) {
+        return parseInt(val) + 'px';
+    };
     $.fn.animatinator = function (options) {
         var self = this;
         // the timer interval is what we use to animate the frames using the private var animator
@@ -16,6 +20,8 @@
             frames: 15,
             // the duration of the animation
             duration: 1000,
+            // starting frame index (0 based)
+            startingFrame: 0,
             // jquery events can be defined in these objects to animate with callbacks defined
             // example:
             // start: {
@@ -31,11 +37,9 @@
 
         // extend the options
         var opts = $.extend(defaults, options);
-
-        // simple helper method to always return px from an int or string int.
-        var toPx = function (val) {
-            return parseInt(val) + 'px';
-        };
+        
+        // set the starting frame
+        self.startingFrame = opts.startingFrame;
 
         // get the time interval between frames
         var stepTime = opts.duration / opts.frames;
@@ -51,6 +55,7 @@
         var last = framesArray.pop();
         framesArray.unshift(last);
 
+        //begins animation from the current frame
         self.startAnimate = function (callback, evt) {
             clearInterval(animator);
             animator = setInterval(function () {
@@ -63,6 +68,7 @@
             }, stepTime);
         };
 
+        // starts aniating backwards from the current frame
         self.reverseAnimate = function (callback, evt) {
             clearInterval(animator);
             animator = setInterval(function () {
@@ -75,6 +81,7 @@
             }, stepTime);
         };
 
+        //stops the animation but leaves it where it is at.
         self.stopAnimate = function (callback, evt) {
             clearInterval(animator);
             animator = undefined;
@@ -82,34 +89,37 @@
                 callback(self, evt);
             }
         };
-        $.each(opts.start, function (key, val) {
+        // jumps to display a certain frame
+        self.gotoFrame = function (frame) {
+            var f = framesArray[frame];
+            if (f) {
+                self.currentFrame = frame;
+                self.css(f);
+            }
+        };
+
+        // helper method to set up the events.
+        var setup = function(key, val, fn) {
             if (typeof key == "number") {
-                self.on(val, self.startAnimate);
+                self.on(val, fn);
             } else {
-                self.on(key, function (evt) {
-                    self.startAnimate(val, evt);
+                self.on(key, function(evt) {
+                    fn(val, evt);
                 });
             }
+        };
+        // setup events
+        $.each(opts.start, function (key, val) {
+            setup(key, val, self.startAnimate);
         });
         $.each(opts.reverse, function (key, val) {
-            if (typeof key == "number") {
-                self.on(val, self.reverseAnimate);
-            } else {
-                self.on(key, function (evt) {
-                    self.reverseAnimate(val, evt);
-                });
-            }
+            setup(key, val, self.reverseAnimate);
         });
         $.each(opts.stop, function (key, val) {
-            if (typeof key == "number") {
-                self.on(val, self.stopAnimate);
-            } else {
-                self.on(key, function (evt) {
-                    self.stopAnimate(val, evt);
-                });
-            }
+            setup(key, val, self.stopAnimate);
         });
 
+        // set initial frame state.
         self.css($.extend({
             width: toPx(opts.dimx),
             height: toPx(opts.dimy),

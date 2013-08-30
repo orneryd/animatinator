@@ -41,18 +41,6 @@ angular.module('myApp.controllers', []).
       $scope.about = $.extend({}, baseOpts, {
           imgPath: 'img/about.png'
       });
-      $scope.animateAll = function() {
-          angular.forEach($scope.animators, function(item) {
-              item.startAnimate(function () {
-                  item.reverseAnimate();
-              });
-          });
-      };
-      $scope.animate = function(key) {
-          $scope.animators[key].startAnimate(function() {
-              $scope.animators[key].reverseAnimate();
-          });
-      };
       $scope.home = $.extend({}, baseOpts, {
           imgPath: 'img/innovation.png'
       });
@@ -62,4 +50,18 @@ angular.module('myApp.controllers', []).
       $scope.media = $.extend({}, baseOpts, {
           imgPath: 'img/media.png'
       });
+
+      $scope.animate = function (key) {
+          $scope.animators[key].startAnimate(function () {
+              $scope.animators[key].reverseAnimate();
+          });
+      };
+
+      $scope.animateAll = function () {
+          angular.forEach($scope.animators, function (item) {
+              item.startAnimate(function () {
+                  item.reverseAnimate();
+              });
+          });
+      };
   }]);

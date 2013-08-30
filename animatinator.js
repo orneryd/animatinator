@@ -13,10 +13,15 @@
             // the height of the frame
             dimy: 0,
             // the number of animation frames
-            animationSteps: 15,
+            frames: 15,
             // the duration of the animation
             duration: 1000,
-            // jquery events can be defined in these objects to animate
+            // jquery events can be defined in these objects to animate with callbacks defined
+            // example:
+            // start: {
+            //   mouseenter: function () {},
+            //   touchstart: function () {}
+            // }
             // can also be just an array of events
             //example: reverse: ["mouseleave", "touchend"]
             start: {}, 
@@ -33,27 +38,27 @@
         };
 
         // get the time interval between frames
-        var stepTime = opts.duration / opts.animationSteps;
+        var stepTime = opts.duration / opts.frames;
 
         // generate the css steps
-        var animateArray = new Array();
-        for (var i = opts.animationSteps - 1; i > -1; i--) {
-            animateArray.push({
+        var framesArray = new Array();
+        for (var i = opts.frames - 1; i > -1; i--) {
+            framesArray.push({
                 "background-position": toPx(opts.dimx * i) + " 0px"
             });
         }
         // last becomes first.
-        var last = animateArray.pop();
-        animateArray.unshift(last);
+        var last = framesArray.pop();
+        framesArray.unshift(last);
 
         self.startAnimate = function (callback, evt) {
             clearInterval(animator);
             animator = setInterval(function () {
-                if (self.currentFrame < animateArray.length) {
-                    self.css(animateArray[self.currentFrame]);
+                if (self.currentFrame < framesArray.length) {
+                    self.css(framesArray[self.currentFrame]);
                     self.currentFrame++;
                 } else {
-                    self.stopAnimate(callback);
+                    self.stopAnimate(callback, evt);
                 }
             }, stepTime);
         };
@@ -63,9 +68,9 @@
             animator = setInterval(function() {
                 if (self.currentFrame > 0) {
                     self.currentFrame--;
-                    self.css(animateArray[self.currentFrame]);
+                    self.css(framesArray[self.currentFrame]);
                 } else {
-                    self.stopAnimate(callback);
+                    self.stopAnimate(callback, evt);
                 }
             }, stepTime);
         };
@@ -109,7 +114,7 @@
             width: toPx(opts.dimx),
             height: toPx(opts.dimy),
             "background-image": "url('" + opts.imgPath + "')",
-        }, animateArray[self.currentFrame]));
+        }, framesArray[self.currentFrame]));
         return self;
     };
 })(window, jQuery);

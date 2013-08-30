@@ -7,7 +7,7 @@ angular.module('myApp.controllers', []).
       var baseOpts = {
           dimx: 70,
           dimy: 70,
-          animationSteps: 15,
+          frames: 15,
           duration: 600,
           start: {
               mouseenter: function() {
@@ -28,7 +28,7 @@ angular.module('myApp.controllers', []).
       var baseOpts = {
           dimx: 70,
           dimy: 70,
-          animationSteps: 15,
+          frames: 15,
           duration: 600,
           start: {
               mouseenter: function () {

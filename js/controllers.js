@@ -39,7 +39,6 @@ angular.module('myApp.controllers', []).
           reverse: ["mouseleave", "touchend"]
       };
       $scope.about = $.extend({}, baseOpts, {
-          elemSelector: '#about',
           imgPath: 'img/about.png'
       });
       $scope.animateAll = function() {
@@ -55,15 +54,12 @@ angular.module('myApp.controllers', []).
           });
       };
       $scope.home = $.extend({}, baseOpts, {
-          elemSelector: '#home',
           imgPath: 'img/innovation.png'
       });
       $scope.examples = $.extend({}, baseOpts, {
-          elemSelector: '#examples',
           imgPath: 'img/genetics.png'
       });
       $scope.media = $.extend({}, baseOpts, {
-          elemSelector: '#media',
           imgPath: 'img/media.png'
       });
   }]);
